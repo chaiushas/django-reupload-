@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+{% block content %}
+
+  {% if form.errors %}
+    <p>There was an erro logging in, try again.</p>
+  {% endif %}
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>No permission</p>
+    {% endif %}
+  {% endif %}
+
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <div class="login-div">
+    <table>
+      <tr>
+        <td>Username: </td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>Password: </td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="Login" class="login-button-indiv"/>
+    <input type="hidden" name="next" value="{{ next }}" />
+  </div>
+  </form>
+  <p class="login-para"><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+
+{% endblock %}

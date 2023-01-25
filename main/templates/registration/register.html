@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+
+{% block content %}
+    <div class="container register">
+        <h3>Registration</h3><br/>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input name="username" type="text" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="Input your username">
+                <small id="usernameHelp" class="form-text text-muted"></small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Input your email address">
+                <small id="emailHelp" class="form-text text-muted">Your email is only gonna be used for password recovery</small>
+            </div>
+            <div class="form-group">
+                <label for="first_name">First Name</label>
+                <input name="first_name" type="form-text" class="form-control" id="first_name" placeholder="Input your first name">
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input name="last_name" type="form-text" class="form-control" id="last_name" placeholder="Input your password">
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input name="password" type="password" class="form-control" id="password" aria-describedby="pwdHelp" placeholder="Input your password">
+                <small id="pwdHelp" class="form-text text-muted">Not less than 8 symbols.</small>
+            </div>
+            <div class="form-group">
+                <label for="password2">Password</label>
+                <input name="password2" type="password" class="form-control" id="password2" aria-describedby="pwd2Help" placeholder="Input your password again">
+            </div>
+            <button type="submit" class="btn btn-dark register-button">Register</button>
+        </form>
+        <p>Registered user? <a href="{% url 'login' %}"><strong>Login.</strong></a></p>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+{% block content %}
+<div class="div-center-detail">
+  <div class="product-name-div">{{ product.name }}:</div>
+  <div><img class="detail-img" src="{{product.image.url}}"></div>
+  <div class="must-be-inline">
+  <div class="product-price-div">Price: {{ product.price }} &euro;</div>
+  <div class="product-add-div product-div-add"><button data-product={{product.id}} data-action="add" class="btn btn-dark add-btn update-cart">Add to Cart</button></div>
+  </div>
+  {% if request.user.is_superuser %}
+  <div>
+      <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'product-update' object.id %}">Edit</a>
+      <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'product-delete' object.id %}">Delete</a>
+  </div>
+  {% endif %}
+  {% if product.description %}
+  <div class="div-description">Description:<p>{{ product.description|safe }} </p>></div>
+  {% else %}
+  <div class="div-description"><p>This product has no description.</p></div>
+{% endif %}
+<hr>
+</div>
+{% if user.is_authenticated %}
+<div class="fieldWrapper div-text-field">
+  <h4>Leave a comment:</h4>
+  <form action="" method="post">
+    {% csrf_token %}
+    {{ form.content }}</br>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+{% endif %}
+<div class="div-comments">
+<h4>Comments:</h4>
+{% if product.comment_set.all %}
+  {% for comment in product.comment_set.all %}
+    <hr>
+    <strong>{{ comment.commenter }}</strong>, <em>{{ comment.date_created}}</em>
+    <p>{{ comment.content }}</p>
+  {% endfor %}
+{% else %}
+  <p>This product has no comments</p>
+</div>
+{% endif %}
+{% endblock content %}

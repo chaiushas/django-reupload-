@@ -1,0 +1,44 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+{% if request.user.is_superuser %}
+<a class="href-button" href="{% url 'product-new'%}">ADD</a>
+{% endif %}
+	<div class="row">
+		{% for product in page_obj %}
+		<div class="col-lg-4">
+			{% if product.image %}
+			<a href="store/{{product.id}}"><img class="product-image" src="{{ product.image.url }}"></a>
+			{% else %}
+			<img class="product-image" src="{% static 'img/no-img.jpg' %}">
+			{% endif %}
+			<div class="box-element product">
+				<h6 style="display: inline-block; float: left"><strong>{{product.name}}</strong></h6>
+				<h4 style="display: inline-block; float: right"><strong>{{product.price|floatformat:2}} &euro;</strong></h4>
+				<button data-product={{product.id}} data-action="add" class="btn btn-dark add-btn update-cart btn-block">Add to Cart</button>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+	<div class="container paginator-pages">
+    <nav aria-label="...">
+        {% if page_obj.has_other_pages %}
+            <ul class="pagination pagination-sm justify-content-end">
+                {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                        <li class="page-item active">
+                            <a class="page-link">{{ i }}</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </nav>
+</div>
+
+{% endblock content %}
